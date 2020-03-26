@@ -16,7 +16,7 @@ LINK_DIRECTORIES(${GTK3_LIBRARY_DIRS})
 ADD_DEFINITIONS(${GTK3_CFLAGS_OTHER})
 
 # Add an executable compiled from hello.c
-ADD_EXECUTABLE(ExamTasksBuilder main.c)
+ADD_EXECUTABLE(ExamTasksBuilder main.c models/questions.c models/questions.h models/exam_papers.c models/exam_papers.h)
 
 # Link the target to the GTK+ libraries
 TARGET_LINK_LIBRARIES(ExamTasksBuilder ${GTK3_LIBRARIES})
