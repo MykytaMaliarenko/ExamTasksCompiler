@@ -2,8 +2,8 @@
 // Created by Mykyta Maliarenko on 26.03.2020.
 //
 
-#ifndef EXAMTASKSBUILDER_QUESTIONS_H
-#define EXAMTASKSBUILDER_QUESTIONS_H
+#ifndef EXAMTASKSBUILDER_QUESTION_H
+#define EXAMTASKSBUILDER_QUESTION_H
 
 typedef struct Question* QuestionPtr;
 
@@ -23,4 +23,4 @@ QuestionPtr* readQuestionsFromFile(char* filePath);
 
 int ssaveQuestionsToFile(char* filePath, QuestionPtr* questions);
 
-#endif //EXAMTASKSBUILDER_QUESTIONS_H
+#endif //EXAMTASKSBUILDER_QUESTION_H

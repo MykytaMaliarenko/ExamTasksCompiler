@@ -2,9 +2,11 @@
 // Created by Mykyta Maliarenko on 26.03.2020.
 //
 
-#include "exam_papers.h"
+#include "question.h"
 
 typedef struct {
-    QuestionPtr* questions;
+    int id;
+    char* text;
     float levelOfDifficulty;
-} ExamPaper;
+} Question;
+

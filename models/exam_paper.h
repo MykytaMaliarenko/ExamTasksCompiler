@@ -2,10 +2,10 @@
 // Created by Mykyta Maliarenko on 26.03.2020.
 //
 
-#ifndef EXAMTASKSBUILDER_EXAM_PAPERS_H
-#define EXAMTASKSBUILDER_EXAM_PAPERS_H
+#ifndef EXAMTASKSBUILDER_EXAM_PAPER_H
+#define EXAMTASKSBUILDER_EXAM_PAPER_H
 
-#include "questions.h"
+#include "question.h"
 
 typedef struct ExamPaper* ExamPaperPtr;
 
@@ -19,4 +19,4 @@ ExamPaperPtr* readExamPapersFromFile(char* filePath, QuestionPtr* allQuestions);
 
 int saveExamPapersToFile(char* filePath, ExamPaperPtr examPaper);
 
-#endif //EXAMTASKSBUILDER_EXAM_PAPERS_H
+#endif //EXAMTASKSBUILDER_EXAM_PAPER_H
