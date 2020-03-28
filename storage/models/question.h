@@ -15,12 +15,12 @@ int questionSetText(QuestionPtr question, char* text);
 
 float questionGetLevelOfDifficulty(QuestionPtr question);
 
-int questionSettLevelOfDifficult(QuestionPtr question, float levelOfDifficulty);
+int questionSetLevelOfDifficult(QuestionPtr question, float levelOfDifficulty);
 
 void destroyQuestion(QuestionPtr question);
 
 QuestionPtr* readQuestionsFromFile(char* filePath);
 
-int ssaveQuestionsToFile(char* filePath, QuestionPtr* questions);
+int saveQuestionsToFile(char* filePath, QuestionPtr* questions);
 
 #endif //EXAMTASKSBUILDER_QUESTION_H
