@@ -24,7 +24,10 @@ ADD_EXECUTABLE(ExamTasksBuilder main.c
         storage/storage_fields.h
         event_bus/event_bus.c event_bus/event_bus.h
         event_bus/events.h
-        controllers/main_controller.c controllers/main_controller.h)
+        controllers/main_controller.c controllers/main_controller.h
+        views/add_question_window.c views/add_question_window.h
+        controllers/add_question_controller.c controllers/add_question_controller.h
+        )
 
 # Link the target to the GTK+ libraries
 TARGET_LINK_LIBRARIES(ExamTasksBuilder ${GTK3_LIBRARIES})
