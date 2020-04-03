@@ -5,18 +5,20 @@
 #ifndef EXAMTASKSBUILDER_STORAGE_H
 #define EXAMTASKSBUILDER_STORAGE_H
 
+#include <stdbool.h>
+
 typedef struct Storage* StoragePtr;
 
 StoragePtr storageGetInstance();
 
-int storageAdd(int fieldId, void* value);
+bool storageAdd(int fieldId, void* value);
 
-int storageRemove(int fieldId);
+bool storageRemove(int fieldId);
 
 int storageRegisterListener(int fieldId, void (*listener)());
 
-int storageUnregisterListener(int fieldId, int listenerId);
+bool storageUnregisterListener(int fieldId, int listenerId);
 
-int storageMutate(int fieldId, void* newValue);
+bool storageMutate(int fieldId, void* newValue);
 
 #endif //EXAMTASKSBUILDER_STORAGE_H
