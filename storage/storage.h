@@ -7,15 +7,17 @@
 
 #include <stdbool.h>
 
-typedef struct Storage* StoragePtr;
+typedef void (*listenerFunc)(void);
 
-StoragePtr storageGetInstance();
+void* storageGet(int fieldId);
+
+bool storageHas(int fieldId);
 
 bool storageAdd(int fieldId, void* value);
 
 bool storageRemove(int fieldId);
 
-int storageRegisterListener(int fieldId, void (*listener)());
+int storageRegisterListener(int fieldId, listenerFunc listener);
 
 bool storageUnregisterListener(int fieldId, int listenerId);
 
