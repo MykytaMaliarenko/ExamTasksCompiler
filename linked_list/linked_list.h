@@ -23,6 +23,7 @@ struct LinkedList
 };
 
 LinkedList* createList();
+void destroyList(LinkedList* self,  void (*destroyVal)(void*));
 
 LinkedListNode* get(LinkedList* self, int index);
 LinkedListNode* getLast(LinkedList* self);

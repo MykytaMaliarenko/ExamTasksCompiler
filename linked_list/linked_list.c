@@ -15,6 +15,20 @@ LinkedList* createList()
     return list;
 }
 
+void destroyList(LinkedList* self,  void (*destroyVal)(void*))
+{
+    LinkedListNode* currentNode = self->firstNode;
+    LinkedListNode* t = NULL;
+    while (currentNode != NULL) {
+        t = currentNode->nextNode;
+        destroyVal(currentNode->value);
+        free(currentNode);
+        currentNode = t;
+    }
+
+    free(self);
+}
+
 LinkedListNode* get(LinkedList* self, int index)
 {
     if (self->size > index && index > -1)
