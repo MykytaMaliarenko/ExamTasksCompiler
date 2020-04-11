@@ -9,7 +9,7 @@
 
 typedef struct Question* QuestionPtr;
 
-QuestionPtr createQuestion(char* text, float levelOfDifficulty);
+QuestionPtr createQuestion(char* text, int levelOfDifficulty);
 
 int questionGetId(QuestionPtr question);
 
@@ -19,9 +19,9 @@ char* questionGetText(QuestionPtr question);
 
 bool questionSetText(QuestionPtr question, char* text);
 
-float questionGetLevelOfDifficulty(QuestionPtr question);
+int questionGetLevelOfDifficulty(QuestionPtr question);
 
-bool questionSetLevelOfDifficult(QuestionPtr question, float levelOfDifficulty);
+bool questionSetLevelOfDifficult(QuestionPtr question, int levelOfDifficulty);
 
 void destroyQuestion(QuestionPtr question);
 

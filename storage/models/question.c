@@ -12,13 +12,13 @@
 struct Question {
     int id;
     char* text;
-    float levelOfDifficulty;
+    int levelOfDifficulty;
 };
 
 static int idCounter = 0;
 
 
-QuestionPtr createQuestion(char* text, float levelOfDifficulty)
+QuestionPtr createQuestion(char* text, int levelOfDifficulty)
 {
     QuestionPtr q = malloc(sizeof(struct Question));
     q->id = idCounter;
@@ -53,12 +53,12 @@ bool questionSetText(QuestionPtr question, char* text)
     return true;
 }
 
-float questionGetLevelOfDifficulty(QuestionPtr question)
+int questionGetLevelOfDifficulty(QuestionPtr question)
 {
     return question->levelOfDifficulty;
 }
 
-bool questionSetLevelOfDifficult(QuestionPtr question, float levelOfDifficulty)
+bool questionSetLevelOfDifficult(QuestionPtr question, int levelOfDifficulty)
 {
     if (levelOfDifficulty >=0 && levelOfDifficulty <=100)
     {
@@ -77,7 +77,7 @@ void destroyQuestion(QuestionPtr question)
 
 bool writeQuestionToFile(FILE *fp, QuestionPtr question)
 {
-    int res = fprintf(fp,"%llu\n%d;%s;%f\n",
+    int res = fprintf(fp,"%llu\n%d;%s;%d\n",
                       strlen(question->text),
                       question->id,
                       question->text,
@@ -97,7 +97,7 @@ QuestionPtr readQuestionFromFile(FILE *fp)
     fscanf(fp, "%llu\n", &strLen);
     question->text = calloc(strLen, sizeof(char));
 
-    fscanf(fp, "%d;%[^;]%*c%f\n",
+    fscanf(fp, "%d;%[^;]%*c%d\n",
            &question->id,
            question->text,
            &question->levelOfDifficulty);
