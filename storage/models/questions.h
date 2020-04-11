@@ -4,18 +4,20 @@
 
 #ifndef EXAMTASKSBUILDER_QUESTIONS_H
 #define EXAMTASKSBUILDER_QUESTIONS_H
+
 #include "./question.h"
+#include "../../linked_list/linked_list.h"
 
-typedef QuestionPtr* Questions;
+typedef LinkedList* Questions;
 
-Questions createQuestions(int n);
+Questions createQuestions();
 
-void destroyQuestions(int n, Questions questions);
+void destroyQuestions(Questions questions);
 
-Questions readQuestionsFromFile(char* filePath, int* n);
+Questions readQuestionsFromFile(char* filePath);
 
 bool readQuestionsToStorage(char* filePath);
 
-bool writeQuestionsToFile(char* filePath, int n, Questions questions);
+bool writeQuestionsToFile(char* filePath, Questions questions);
 
 #endif //EXAMTASKSBUILDER_QUESTIONS_H

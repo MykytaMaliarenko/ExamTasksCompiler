@@ -8,31 +8,36 @@
 #include "../storage.h"
 #include "../storage_fields.h"
 
-Questions createQuestions(int n)
+
+Questions createQuestions()
 {
-    return calloc(n, sizeof(QuestionPtr));
+    return createList();
 }
 
-void destroyQuestions(int n, Questions questions)
+void destroyQuestionVal(void* val)
 {
-    for (int i=0; i < n; i++)
-        destroyQuestion(questions[i]);
-
-    free(questions);
+    destroyQuestion(val);
 }
 
-Questions readQuestionsFromFile(char* filePath, int* n)
+void destroyQuestions(Questions questions)
+{
+    destroyList(questions, destroyQuestionVal);
+}
+
+Questions readQuestionsFromFile(char* filePath)
 {
     if(access(filePath, F_OK ) != -1)
     {
+        int* n;
+
         FILE *fp = fopen(filePath, "r");
         if (fp != NULL)
         {
             fscanf(fp, "%d\n", n);
 
-            Questions questions = createQuestions(*n);
+            Questions questions = createQuestions();
             for (int i=0; i < *n; i++)
-                questions[i] = readQuestionFromFile(fp);
+                listAdd(questions, readQuestionFromFile(fp));
 
             fclose(fp);
             return questions;
@@ -47,14 +52,21 @@ Questions readQuestionsFromFile(char* filePath, int* n)
 bool readQuestionsToStorage(char* filePath)
 {
     int* n = calloc(1, sizeof(int));
-    Questions questions = readQuestionsFromFile(filePath, n);
+
+    Questions questions = readQuestionsFromFile(filePath);;
+    if (questions == NULL)
+    {
+        free(n);
+        return false;
+    }
+
 
     if (storageHas(STORAGE_QUESTIONS))
     {
         Questions oldQuestions = storageGet(STORAGE_QUESTIONS);
         int* oldN = ((int*) storageGet(STORAGE_QUESTIONS_LENGTH));
 
-        destroyQuestions(*oldN, oldQuestions);
+        destroyQuestions(oldQuestions);
         free(oldN);
 
         storageMutate(STORAGE_QUESTIONS, questions);
@@ -66,25 +78,21 @@ bool readQuestionsToStorage(char* filePath)
         storageAdd(STORAGE_QUESTIONS_LENGTH, n);
     }
 
-    questionSetIdCounter(questionGetId(questions[*n - 1]) + 1);
+    questionSetIdCounter(questionGetId((QuestionPtr) listGet(questions, *n - 1)) + 1);
 
     return true;
 }
 
-bool writeQuestionsToFile(char* filePath, int n, Questions questions)
+bool writeQuestionsToFile(char* filePath, Questions questions)
 {
-    if (n == 0 || n < 0)
-        return false;
 
     FILE *fp = fopen(filePath, "w");
     if (fp != NULL)
     {
-        fprintf(fp, "%d\n", n);
-
         bool t;
-        for(int i=0;i < n; i++)
+        for(int i=0;i < questions->size; i++)
         {
-            t = writeQuestionToFile(fp, questions[i]);
+            t = writeQuestionToFile(fp, (QuestionPtr) listGet(questions, i));
             if (t == false)
             {
                 fclose(fp);
