@@ -29,7 +29,7 @@ void destroyList(LinkedList* self,  void (*destroyVal)(void*))
     free(self);
 }
 
-LinkedListNode* listGet(LinkedList* self, int index)
+LinkedListNode* listGetNode(LinkedList* self, int index)
 {
     if (self->size > index && index > -1)
     {
@@ -44,9 +44,29 @@ LinkedListNode* listGet(LinkedList* self, int index)
     }
 }
 
-LinkedListNode* listGetLast(LinkedList* self)
+LinkedListNode* listGetLastNode(LinkedList* self)
 {
-    return listGet(self, self->size - 1);
+    return listGetNode(self, self->size - 1);
+}
+
+void* listGet(LinkedList* self, int index)
+{
+    if (self->size > index && index > -1)
+    {
+        LinkedListNode* currentNode = self->firstNode;
+        while (index != 0) {
+            currentNode = currentNode->nextNode;
+            index--;
+        }
+        return currentNode->value;
+    } else {
+        return NULL;
+    }
+}
+
+void* listGetLast(LinkedList* self)
+{
+    return listGetNode(self, self->size - 1)->value;
 }
 
 void listIterate(LinkedList* self, void (*execute)(LinkedListNode* val, int i))
@@ -114,7 +134,7 @@ void listAdd(LinkedList* self, void* value)
     if (self->size == 0)
         self->firstNode = node;
     else
-        listGetLast(self)->nextNode = node;
+        listGetLastNode(self)->nextNode = node;
 
     self->size++;
 }
@@ -130,7 +150,7 @@ void listAddByIndex(LinkedList* self, int index, void* value)
             node->nextNode = self->firstNode;
             self->firstNode = node;
         } else {
-            LinkedListNode* insertAfter = listGet(self, index-1);
+            LinkedListNode* insertAfter = listGetNode(self, index-1);
             node->nextNode = insertAfter->nextNode;
             insertAfter->nextNode = node;
         }
@@ -143,8 +163,8 @@ void listDelete(LinkedList* self, int index)
 {
     if (index > 0 && index < self->size)
     {
-        LinkedListNode* val = listGet(self, index);
-        LinkedListNode* prevVal = listGet(self, index - 1);
+        LinkedListNode* val = listGetNode(self, index);
+        LinkedListNode* prevVal = listGetNode(self, index - 1);
         prevVal->nextNode = prevVal->nextNode->nextNode;
         free(val);
         self->size--;

@@ -25,8 +25,11 @@ struct LinkedList
 LinkedList* createList();
 void destroyList(LinkedList* self,  void (*destroyVal)(void*));
 
-LinkedListNode* listGet(LinkedList* self, int index);
-LinkedListNode* listGetLast(LinkedList* self);
+LinkedListNode* listGetNode(LinkedList* self, int index);
+LinkedListNode* listGetLastNode(LinkedList* self);
+
+void* listGet(LinkedList* self, int index);
+void* listGetLast(LinkedList* self);
 
 void listIterate(LinkedList* self, void (*execute)(LinkedListNode* val, int index));
 int listFind(LinkedList* self, bool (*execute)(void* val));
