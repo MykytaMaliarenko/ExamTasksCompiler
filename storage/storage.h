@@ -6,6 +6,7 @@
 #define EXAMTASKSBUILDER_STORAGE_H
 
 #include <stdbool.h>
+#include "storage_fields.h"
 
 typedef void (*listenerFunc)(void);
 
