@@ -25,20 +25,20 @@ struct LinkedList
 LinkedList* createList();
 void destroyList(LinkedList* self,  void (*destroyVal)(void*));
 
-LinkedListNode* get(LinkedList* self, int index);
-LinkedListNode* getLast(LinkedList* self);
+LinkedListNode* listGet(LinkedList* self, int index);
+LinkedListNode* listGetLast(LinkedList* self);
 
-void iterate(LinkedList* self, void (*execute)(LinkedListNode* val, int index));
-int find(LinkedList* self, bool (*execute)(void* val));
-LinkedList* filter(LinkedList* self, bool (*execute)(void* val));
-LinkedList* map(LinkedList* self, void* (*execute)(void* val));
+void listIterate(LinkedList* self, void (*execute)(LinkedListNode* val, int index));
+int listFind(LinkedList* self, bool (*execute)(void* val));
+LinkedList* listFilter(LinkedList* self, bool (*execute)(void* val));
+LinkedList* listMap(LinkedList* self, void* (*execute)(void* val));
 
 
-void add(LinkedList* self, void* value);
-void addByIndex(LinkedList* self, int index, void* value);
+void listAdd(LinkedList* self, void* value);
+void listAddByIndex(LinkedList* self, int index, void* value);
 
-void delete(LinkedList* self, int index);
+void listDelete(LinkedList* self, int index);
 
-void sort(LinkedList* self, int (*compare)(LinkedListNode* a, LinkedListNode* b));
+void listSort(LinkedList* self, int (*compare)(LinkedListNode* a, LinkedListNode* b));
 
 #endif //INC_7_LINKEDLIST_H

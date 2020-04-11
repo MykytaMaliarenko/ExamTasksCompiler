@@ -29,7 +29,7 @@ void destroyList(LinkedList* self,  void (*destroyVal)(void*))
     free(self);
 }
 
-LinkedListNode* get(LinkedList* self, int index)
+LinkedListNode* listGet(LinkedList* self, int index)
 {
     if (self->size > index && index > -1)
     {
@@ -44,12 +44,12 @@ LinkedListNode* get(LinkedList* self, int index)
     }
 }
 
-LinkedListNode* getLast(LinkedList* self)
+LinkedListNode* listGetLast(LinkedList* self)
 {
-    return get(self, self->size - 1);
+    return listGet(self, self->size - 1);
 }
 
-void iterate(LinkedList* self, void (*execute)(LinkedListNode* val, int i))
+void listIterate(LinkedList* self, void (*execute)(LinkedListNode* val, int i))
 {
     int index = 0;
     LinkedListNode* currentNode = self->firstNode;
@@ -60,7 +60,7 @@ void iterate(LinkedList* self, void (*execute)(LinkedListNode* val, int i))
     }
 }
 
-int find(LinkedList* self, bool (*execute)(void* val))
+int listFind(LinkedList* self, bool (*execute)(void* val))
 {
     int index = 0;
     LinkedListNode* currentNode = self->firstNode;
@@ -74,7 +74,7 @@ int find(LinkedList* self, bool (*execute)(void* val))
     return -1;
 }
 
-LinkedList* filter(LinkedList* self, bool (*execute)(void* val))
+LinkedList* listFilter(LinkedList* self, bool (*execute)(void* val))
 {
     LinkedList* res = createList();
 
@@ -82,7 +82,7 @@ LinkedList* filter(LinkedList* self, bool (*execute)(void* val))
     int index = 0;
     while (index < self->size) {
         if (execute(currentNode->value))
-            add(res, currentNode->value);
+            listAdd(res, currentNode->value);
         currentNode = currentNode->nextNode;
         index++;
     }
@@ -90,14 +90,14 @@ LinkedList* filter(LinkedList* self, bool (*execute)(void* val))
     return res;
 }
 
-LinkedList* map(LinkedList* self, void* (*execute)(void*))
+LinkedList* listMap(LinkedList* self, void* (*execute)(void*))
 {
     LinkedList* res = createList();
 
     LinkedListNode* currentNode = self->firstNode;
     int index = 0;
     while (index < self->size) {
-        add(res, execute(currentNode->value));
+        listAdd(res, execute(currentNode->value));
         currentNode = currentNode->nextNode;
         index++;
     }
@@ -105,7 +105,7 @@ LinkedList* map(LinkedList* self, void* (*execute)(void*))
     return res;
 }
 
-void add(LinkedList* self, void* value)
+void listAdd(LinkedList* self, void* value)
 {
     LinkedListNode* node = malloc(sizeof(LinkedListNode));
     node->value = value;
@@ -114,12 +114,12 @@ void add(LinkedList* self, void* value)
     if (self->size == 0)
         self->firstNode = node;
     else
-        getLast(self)->nextNode = node;
+        listGetLast(self)->nextNode = node;
 
     self->size++;
 }
 
-void addByIndex(LinkedList* self, int index, void* value)
+void listAddByIndex(LinkedList* self, int index, void* value)
 {
     if (index >= 0 && index < self->size) {
         LinkedListNode* node = malloc(sizeof(LinkedListNode));
@@ -130,7 +130,7 @@ void addByIndex(LinkedList* self, int index, void* value)
             node->nextNode = self->firstNode;
             self->firstNode = node;
         } else {
-            LinkedListNode* insertAfter = get(self, index-1);
+            LinkedListNode* insertAfter = listGet(self, index-1);
             node->nextNode = insertAfter->nextNode;
             insertAfter->nextNode = node;
         }
@@ -139,12 +139,12 @@ void addByIndex(LinkedList* self, int index, void* value)
     }
 }
 
-void delete(LinkedList* self, int index)
+void listDelete(LinkedList* self, int index)
 {
     if (index > 0 && index < self->size)
     {
-        LinkedListNode* val = get(self, index);
-        LinkedListNode* prevVal = get(self, index - 1);
+        LinkedListNode* val = listGet(self, index);
+        LinkedListNode* prevVal = listGet(self, index - 1);
         prevVal->nextNode = prevVal->nextNode->nextNode;
         free(val);
         self->size--;
@@ -167,7 +167,7 @@ void delete(LinkedList* self, int index)
     }
 }
 
-void sort(LinkedList* self, int (*compare)(LinkedListNode* a, LinkedListNode* b))
+void listSort(LinkedList* self, int (*compare)(LinkedListNode* a, LinkedListNode* b))
 {
     int swapped;
     LinkedListNode *ptr1;
