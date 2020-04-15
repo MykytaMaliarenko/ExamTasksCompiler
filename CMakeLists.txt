@@ -19,7 +19,6 @@ ADD_DEFINITIONS(${GTK3_CFLAGS_OTHER})
 ADD_EXECUTABLE(ExamTasksBuilder main.c
         storage/models/question.c storage/models/question.h
         storage/models/exam_paper.c storage/models/exam_paper.h
-        views/main_window.c views/main_window.h
         storage/storage.c storage/storage.h
         storage/storage_fields.h
         event_bus/event_bus.c event_bus/event_bus.h

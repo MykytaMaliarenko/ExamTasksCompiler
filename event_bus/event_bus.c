@@ -20,7 +20,7 @@ bool emitEvent(int eventId)
 {
     for (int i = 0; i < EVENT_BUS_MAX_SIZE; i++)
     {
-        if (myEventBus[i]->fieldId != NULL && myEventBus[i]->fieldId == eventId)
+        if (myEventBus[i] != NULL && myEventBus[i]->fieldId == eventId)
         {
             for (int j = 0; j < EVENT_BUS_FIELD_MAX_LISTENERS; j++)
             {
@@ -38,7 +38,7 @@ bool emitEventWithParam(int eventId, void* param)
 {
     for (int i = 0; i < EVENT_BUS_MAX_SIZE; i++)
     {
-        if (myEventBus[i]->fieldId != NULL && myEventBus[i]->fieldId == eventId)
+        if (myEventBus[i] != NULL && myEventBus[i]->fieldId == eventId)
         {
             for (int j = 0; j < EVENT_BUS_FIELD_MAX_LISTENERS; j++)
             {
@@ -56,7 +56,7 @@ int registerListener(int eventId, listenerFunc listener)
 {
     for (int i = 0; i < EVENT_BUS_MAX_SIZE; i++)
     {
-        if (myEventBus[i]->fieldId != NULL && myEventBus[i]->fieldId == eventId)
+        if (myEventBus[i] != NULL && myEventBus[i]->fieldId == eventId)
         {
             for (int j = 0; j < EVENT_BUS_FIELD_MAX_LISTENERS; j++)
             {
@@ -76,7 +76,7 @@ bool unregisterListener(int eventId, int listenerId)
 {
     for (int i = 0; i < EVENT_BUS_MAX_SIZE; i++)
     {
-        if (myEventBus[i]->fieldId != NULL && myEventBus[i]->fieldId == eventId)
+        if (myEventBus[i] != NULL && myEventBus[i]->fieldId == eventId)
         {
             myEventBus[i]->listeners[listenerId] = NULL;
             return true;
