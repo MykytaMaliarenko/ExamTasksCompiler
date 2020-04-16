@@ -6,8 +6,8 @@
 #include <stdlib.h>
 #include "unistd.h"
 #include "string.h"
-#include "../storage.h"
-#include "../storage_fields.h"
+#include "../../storage/storage.h"
+#include "../../storage/storage_fields.h"
 
 struct Question {
     int id;

@@ -5,8 +5,8 @@
 #include "questions.h"
 #include <stdlib.h>
 #include "unistd.h"
-#include "../storage.h"
-#include "../storage_fields.h"
+#include "../../storage/storage.h"
+#include "../../storage/storage_fields.h"
 
 
 Questions createQuestions()

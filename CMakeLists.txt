@@ -17,15 +17,21 @@ ADD_DEFINITIONS(${GTK3_CFLAGS_OTHER})
 
 # Add an executable compiled from hello.c
 ADD_EXECUTABLE(ExamTasksBuilder main.c
-        storage/models/question.c storage/models/question.h
-        storage/models/exam_paper.c storage/models/exam_paper.h
+        core/controllers/add_question_controller.c core/controllers/add_question_controller.h
+        core/controllers/main_controller.c core/controllers/main_controller.h
+
+        core/models/question.c core/models/question.h
+        core/models/questions.c core/models/questions.h
+        core/models/exam_paper.c core/models/exam_paper.h
+
+        core/views/add_question_window.c core/views/add_question_window.h
+        core/views/main_window.c core/views/main_window.h
+
         storage/storage.c storage/storage.h
         storage/storage_fields.h
+
         event_bus/event_bus.c event_bus/event_bus.h
         event_bus/events.h
-        controllers/main_controller.c controllers/main_controller.h
-        views/add_question_window.c views/add_question_window.h
-        controllers/add_question_controller.c controllers/add_question_controller.h
         )
 
 # Link the target to the GTK+ libraries
