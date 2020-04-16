@@ -32,6 +32,8 @@ ADD_EXECUTABLE(ExamTasksBuilder main.c
 
         event_bus/event_bus.c event_bus/event_bus.h
         event_bus/events.h
+
+        utils/linked_list/linked_list.h utils/linked_list/linked_list.c
         )
 
 # Link the target to the GTK+ libraries
