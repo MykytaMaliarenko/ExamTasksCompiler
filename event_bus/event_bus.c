@@ -11,12 +11,12 @@
 
 typedef struct {
     int fieldId;
-    listenerFunc listeners[EVENT_BUS_FIELD_MAX_LISTENERS];
+    eventBusListenerFunc listeners[EVENT_BUS_FIELD_MAX_LISTENERS];
 } EventBusField;
 
 static EventBusField* myEventBus[EVENT_BUS_MAX_SIZE] = { 0 };
 
-bool emitEvent(int eventId)
+bool eventBusEmitEvent(int eventId)
 {
     for (int i = 0; i < EVENT_BUS_MAX_SIZE; i++)
     {
@@ -34,7 +34,7 @@ bool emitEvent(int eventId)
     return false;
 }
 
-bool emitEventWithParam(int eventId, void* param)
+bool eventBusEmitEventWithParam(int eventId, void* param)
 {
     for (int i = 0; i < EVENT_BUS_MAX_SIZE; i++)
     {
@@ -52,7 +52,7 @@ bool emitEventWithParam(int eventId, void* param)
     return false;
 }
 
-int registerListener(int eventId, listenerFunc listener)
+int eventBusRegisterListener(int eventId, eventBusListenerFunc listener)
 {
     for (int i = 0; i < EVENT_BUS_MAX_SIZE; i++)
     {
@@ -69,10 +69,20 @@ int registerListener(int eventId, listenerFunc listener)
         }
     }
 
+    for (int i = 0; i < EVENT_BUS_MAX_SIZE; i++)
+    {
+        if (myEventBus[i] == NULL)
+        {
+            myEventBus[i] = calloc(1, sizeof(EventBusField));
+            myEventBus[i]->fieldId = eventId;
+            myEventBus[i]->listeners[0] = listener;
+        }
+    }
+
     return -1;
 }
 
-bool unregisterListener(int eventId, int listenerId)
+bool eventBusUnregisterListener(int eventId, int listenerId)
 {
     for (int i = 0; i < EVENT_BUS_MAX_SIZE; i++)
     {

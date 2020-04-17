@@ -6,14 +6,14 @@
 #ifndef EXAMTASKSBUILDER_EVENT_BUS_H
 #define EXAMTASKSBUILDER_EVENT_BUS_H
 
-typedef void (*listenerFunc)(void*);
+typedef void (*eventBusListenerFunc)(void*);
 
-bool emitEvent(int eventId);
+bool eventBusEmitEvent(int eventId);
 
-bool emitEventWithParam(int eventId, void* param);
+bool eventBusEmitEventWithParam(int eventId, void* param);
 
-int registerListener(int eventId, listenerFunc listener);
+int eventBusRegisterListener(int eventId, eventBusListenerFunc listener);
 
-bool unregisterListener(int eventId, int listenerId);
+bool eventBusUnregisterListener(int eventId, int listenerId);
 
 #endif //EXAMTASKSBUILDER_EVENT_BUS_H
