@@ -28,13 +28,12 @@ ADD_EXECUTABLE(ExamTasksBuilder main.c
         core/views/main_window.c core/views/main_window.h
 
         storage/storage.c storage/storage.h
-        storage/storage_fields.h
+        storage/storage_fields.h storage/storage_fields.c
 
         event_bus/event_bus.c event_bus/event_bus.h
-        event_bus/events.h
+        event_bus/events.h event_bus/events.c
 
-        utils/linked_list/linked_list.h utils/linked_list/linked_list.c
-        )
+        utils/linked_list/linked_list.h utils/linked_list/linked_list.c)
 
 # Link the target to the GTK+ libraries
 TARGET_LINK_LIBRARIES(ExamTasksBuilder ${GTK3_LIBRARIES})
