@@ -76,6 +76,7 @@ int eventBusRegisterListener(int eventId, eventBusListenerFunc listener)
             myEventBus[i] = calloc(1, sizeof(EventBusField));
             myEventBus[i]->fieldId = eventId;
             myEventBus[i]->listeners[0] = listener;
+            return 0;
         }
     }
 
