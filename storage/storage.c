@@ -127,3 +127,15 @@ bool storageUnregisterListener(int fieldId, int listenerId)
 
     return false;
 }
+
+void storageNotifyAboutMutation(int fieldId)
+{
+    for (int i=0; i < STORAGE_MAX_SIZE; i++) {
+        if (myStorage[i] != NULL && myStorage[i]->fieldId == fieldId)
+        {
+            for (int j=0; j < STORAGE_FIELD_MAX_LISTENERS; j++)
+                if (myStorage[i]->listeners[j] != NULL)
+                    myStorage[i]->listeners[j]();
+        }
+    }
+}

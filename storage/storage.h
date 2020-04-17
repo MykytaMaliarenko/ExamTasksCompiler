@@ -24,4 +24,6 @@ bool storageUnregisterListener(int fieldId, int listenerId);
 
 bool storageMutate(int fieldId, void* newValue);
 
+void storageNotifyAboutMutation(int fieldId);
+
 #endif //EXAMTASKSBUILDER_STORAGE_H
