@@ -20,11 +20,27 @@ enum
 struct MainWindow
 {
     GtkWindow *window;
+
     GtkListStore* questionsListStore;
+    GtkTreeView* questionsTreeView;
+
+    GtkEntry* entryQuestionText;
+    GtkEntry* entryLevelOfDifficulty;
+    GtkButton* buttonUpdateQuestion;
+    GtkButton* buttonRemoveQuestion;
+
+    int chosenQuestionId;
+
 } static *mainWindow;
 
 
 void onAddQuestion(GtkWidget *TopWindow, gpointer data);
+
+void onRemoveQuestion(GtkWidget *TopWindow, gpointer data);
+
+void onUpdateQuestion(GtkWidget *TopWindow, gpointer data);
+
+void onQuestionsListStoreRowClick(GtkTreeView *treeView, GtkTreePath *path, GtkTreeViewColumn *column, gpointer userData);
 
 void onExportQuestionsToPDF();
 
@@ -35,7 +51,9 @@ void renderQuestions();
 
 GtkWidget* getMainWindow()
 {
+
     mainWindow = calloc(1, sizeof(struct MainWindow));
+    mainWindow->chosenQuestionId = -1;
 
     GtkBuilder *builder = gtk_builder_new();
     gtk_builder_add_from_file(builder, "../resources/main.glade", NULL);
@@ -48,6 +66,21 @@ GtkWidget* getMainWindow()
                      G_CALLBACK(onAddQuestion), NULL);
 
     mainWindow->questionsListStore = GTK_LIST_STORE(gtk_builder_get_object(builder, "questions_list_store"));
+    mainWindow->questionsTreeView = GTK_TREE_VIEW(gtk_builder_get_object(builder, "questions_tree_view"));
+    g_signal_connect(mainWindow->questionsTreeView, "row-activated",
+                     G_CALLBACK(onQuestionsListStoreRowClick), NULL);
+
+    mainWindow->entryQuestionText = GTK_ENTRY(gtk_builder_get_object(builder, "entry_question_text"));
+    mainWindow->entryLevelOfDifficulty = GTK_ENTRY(gtk_builder_get_object(builder, "entry_level_Of_difficulty"));
+
+    mainWindow->buttonUpdateQuestion = GTK_BUTTON(gtk_builder_get_object(builder, "button_update_question"));
+    g_signal_connect(mainWindow->buttonUpdateQuestion, "clicked",
+                     G_CALLBACK(onUpdateQuestion), NULL);
+
+    mainWindow->buttonRemoveQuestion = GTK_BUTTON(gtk_builder_get_object(builder, "button_remove_question"));
+    g_signal_connect(mainWindow->buttonRemoveQuestion, "clicked",
+                     G_CALLBACK(onRemoveQuestion), NULL);
+
 
     storageRegisterListener(STORAGE_QUESTIONS, &renderQuestions);
     renderQuestions();
@@ -80,4 +113,64 @@ void renderQuestions()
 void onAddQuestion(GtkWidget *TopWindow, gpointer data)
 {
     eventBusEmitEvent(EVENT_MAIN_WINDOW_ADD_QUESTION);
+}
+
+void onRemoveQuestion(GtkWidget *TopWindow, gpointer data)
+{
+    int* index = calloc(1, sizeof(int));
+
+    Questions questions = storageGet(STORAGE_QUESTIONS);
+    if (questionsGetById(questions, mainWindow->chosenQuestionId, index) != NULL)
+    {
+        questionsRemove(questions, *index);
+        storageNotifyAboutMutation(STORAGE_QUESTIONS);
+        mainWindow->chosenQuestionId = -1;
+        gtk_entry_set_text(mainWindow->entryQuestionText, "");
+        gtk_entry_set_text(mainWindow->entryLevelOfDifficulty, "");
+    }
+
+    free(index);
+}
+
+void onUpdateQuestion(GtkWidget *TopWindow, gpointer data)
+{
+    Questions questions = storageGet(STORAGE_QUESTIONS);
+    QuestionPtr question = questionsGetById(questions, mainWindow->chosenQuestionId, NULL);
+    if (question != NULL)
+    {
+        questionSetText(question,  (char*) gtk_entry_get_text(mainWindow->entryQuestionText));
+        questionSetLevelOfDifficult(question, atoi((char*) gtk_entry_get_text(mainWindow->entryLevelOfDifficulty)));
+        storageNotifyAboutMutation(STORAGE_QUESTIONS);
+    }
+}
+
+void onQuestionsListStoreRowClick(GtkTreeView *treeView, GtkTreePath *path, GtkTreeViewColumn *column, gpointer userData)
+{
+    int id;
+    GtkTreeIter iter;
+    GtkTreeModel *model = gtk_tree_view_get_model(mainWindow->questionsTreeView);
+    gtk_tree_model_get_iter(model, &iter, path);
+    gtk_tree_model_get(model, &iter, 2, &id, -1);
+
+    QuestionPtr question = NULL;
+    Questions questions = storageGet(STORAGE_QUESTIONS);
+    for (int i=0; i < questions->size; i++)
+    {
+        question = listGet(questions, i);
+        if (questionGetId(question) == id)
+            break;
+        else
+            question = NULL;
+    }
+
+    if (question != NULL)
+    {
+        char num[5];
+        itoa(questionGetLevelOfDifficulty(question), num, 10);
+
+        gtk_entry_set_text(mainWindow->entryQuestionText, questionGetText(question));
+        gtk_entry_set_text(mainWindow->entryLevelOfDifficulty, num);
+
+        mainWindow->chosenQuestionId = id;
+    }
 }
