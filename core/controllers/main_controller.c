@@ -22,9 +22,16 @@ void exportQuestionsToPDF();
 
 int startMainWindow()
 {
+    //the only way you should create garbage-question for tests
+    char* t1 = calloc(20, sizeof(char));
+    memcpy(t1, "test 1", 6);
+
+    char* t2 = calloc(20, sizeof(char));
+    memcpy(t2, "test 2", 6);
+
     Questions questions = createQuestions();
-    listAdd(questions,createQuestion("test 1", 50));
-    listAdd(questions,createQuestion("test 2", 100));
+    listAdd(questions,createQuestion(t1, 50));
+    listAdd(questions,createQuestion(t2, 100));
 
     storageAdd(STORAGE_QUESTIONS, questions);
 
