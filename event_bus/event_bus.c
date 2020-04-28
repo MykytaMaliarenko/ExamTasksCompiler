@@ -16,6 +16,11 @@ typedef struct {
 
 static EventBusField* myEventBus[EVENT_BUS_MAX_SIZE] = { 0 };
 
+/**
+ * @brief Run all event listeners without parameter.
+ *
+ * @return returns true if everything is ok otherwise false.
+ */
 bool eventBusEmitEvent(int eventId)
 {
     for (int i = 0; i < EVENT_BUS_MAX_SIZE; i++)
@@ -34,6 +39,14 @@ bool eventBusEmitEvent(int eventId)
     return false;
 }
 
+/**
+ * @brief Run all event listeners with given parameter.
+ *
+ * @param eventId id of event
+ * @param param value to pass to the listeners
+ *
+ * @return returns true if everything is ok otherwise false.
+ */
 bool eventBusEmitEventWithParam(int eventId, void* param)
 {
     for (int i = 0; i < EVENT_BUS_MAX_SIZE; i++)
@@ -52,6 +65,14 @@ bool eventBusEmitEventWithParam(int eventId, void* param)
     return false;
 }
 
+/**
+ * @brief Add listener to event.
+ *
+ * @param eventId id of event
+ * @param param value to pass to the listeners
+ *
+ * @return returns listener id or -1 if something went wrong.
+ */
 int eventBusRegisterListener(int eventId, eventBusListenerFunc listener)
 {
     for (int i = 0; i < EVENT_BUS_MAX_SIZE; i++)
@@ -83,6 +104,14 @@ int eventBusRegisterListener(int eventId, eventBusListenerFunc listener)
     return -1;
 }
 
+/**
+ * @brief Remove listener from event.
+ *
+ * @param eventId id of event
+ * @param listenerId id of listener to remove
+ *
+ * @return returns true if listener was found and removed otherwise false.
+ */
 bool eventBusUnregisterListener(int eventId, int listenerId)
 {
     for (int i = 0; i < EVENT_BUS_MAX_SIZE; i++)
