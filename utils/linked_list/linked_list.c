@@ -171,7 +171,7 @@ void listDelete(LinkedList* self, int index)
     }
     else if (index == 0)
     {
-        if (self->size == 0)
+        if (self->size == 1)
         {
             free(self->firstNode);
             self->firstNode = NULL;
