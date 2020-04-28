@@ -17,6 +17,10 @@ typedef struct {
 static StorageField* myStorage[STORAGE_MAX_SIZE] = { 0 };
 
 
+/**
+ * @brief Get value from storage by field id.
+ * @return returns NULL if value not found.
+ */
 void* storageGet(int fieldId)
 {
     for (int i=0; i < STORAGE_MAX_SIZE; i++)
@@ -26,6 +30,9 @@ void* storageGet(int fieldId)
     return NULL;
 }
 
+/**
+ * @brief Check if storage has value by field id.
+ */
 bool storageHas(int fieldId)
 {
     for (int i=0; i < STORAGE_MAX_SIZE; i++)
@@ -35,6 +42,10 @@ bool storageHas(int fieldId)
     return false;
 }
 
+/**
+ * @brief Add value to storage.
+ * @return returns false if there is value by that key or no room in storage.
+ */
 bool storageAdd(int fieldId, void* value)
 {
     int emptyElementIndex = -1;
@@ -64,6 +75,10 @@ bool storageAdd(int fieldId, void* value)
     }
 }
 
+/**
+ * @brief Reassign value by given key and run all listeners.
+ * @return returns false if there is value by that key or no room in storage.
+ */
 bool storageMutate(int fieldId, void* value)
 {
     for (int i=0; i < STORAGE_MAX_SIZE; i++) {
@@ -81,6 +96,10 @@ bool storageMutate(int fieldId, void* value)
     return false;
 }
 
+/**
+ * @brief Remove value from storage by given key.
+ * @return returns false if there is value by key.
+ */
 bool storageRemove(int fieldId)
 {
     for (int i=0; i < STORAGE_MAX_SIZE; i++) {
@@ -95,6 +114,10 @@ bool storageRemove(int fieldId)
     return false;
 }
 
+/**
+ * @brief Register listener to listen for updates.
+ * @return returns listener id if everything is ok otherwise -1.
+ */
 int storageRegisterListener(int fieldId, listenerFunc listener)
 {
     for (int i=0; i < STORAGE_MAX_SIZE; i++) {
@@ -115,6 +138,10 @@ int storageRegisterListener(int fieldId, listenerFunc listener)
     return -1;
 }
 
+/**
+ * @brief Remove listener from field by given id.
+ * @return returns true if everything is ok.
+ */
 bool storageUnregisterListener(int fieldId, int listenerId)
 {
     for (int i=0; i < STORAGE_MAX_SIZE; i++) {
@@ -128,6 +155,9 @@ bool storageUnregisterListener(int fieldId, int listenerId)
     return false;
 }
 
+/**
+ * @brief Notifies all listener about mutation of value.
+ */
 void storageNotifyAboutMutation(int fieldId)
 {
     for (int i=0; i < STORAGE_MAX_SIZE; i++) {
