@@ -14,6 +14,10 @@ Questions createQuestions();
 
 void destroyQuestions(Questions questions);
 
+QuestionPtr questionsGetById(Questions questions, int questionId, int* resultIndex);
+
+void questionsRemove(Questions questions, int index);
+
 Questions readQuestionsFromFile(char* filePath);
 
 bool readQuestionsToStorage(char* filePath);

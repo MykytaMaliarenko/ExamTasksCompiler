@@ -15,14 +15,47 @@ Questions createQuestions()
     return createList();
 }
 
-void destroyQuestionVal(void* val)
-{
-    destroyQuestion(val);
-}
-
 void destroyQuestions(Questions questions)
 {
-    destroyList(questions, destroyQuestionVal);
+    destroyList(questions, (void (*)(void *)) destroyQuestion);
+}
+
+/**
+ * @brief Get question by id.
+ *
+ * @param questions Questions.
+ * @param questionId question id.
+ * @param resultIndex if question is found and resultIndex is not null index of question will be written here.
+ * @return null if question not found
+ */
+QuestionPtr questionsGetById(Questions questions, int questionId, int* resultIndex)
+{
+    QuestionPtr result = NULL;
+    for (int i=0; i < questions->size; i++)
+    {
+        result = listGet(questions, i);
+        if (questionGetId(result) == questionId)
+        {
+            if (resultIndex != NULL)
+                *resultIndex = i;
+
+            return result;
+        }
+    }
+
+    return NULL;
+}
+
+/**
+ * @brief Removing question from questions by index.
+ *
+ * @param questions Questions.
+ * @param index index to remove by.
+ */
+void questionsRemove(Questions questions, int index)
+{
+    destroyQuestion(listGet(questions, index));
+    listDelete(questions, index);
 }
 
 Questions readQuestionsFromFile(char* filePath)
