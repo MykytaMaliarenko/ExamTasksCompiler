@@ -49,7 +49,8 @@ bool questionSetText(QuestionPtr question, char* text)
     if (question->text != NULL)
         free(question->text);
 
-    question->text = text;
+    question->text = calloc(strlen(text) + 1, sizeof(char));
+    memcpy(question->text, text, strlen(text));
     return true;
 }
 
