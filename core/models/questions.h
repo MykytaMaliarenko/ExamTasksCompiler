@@ -18,10 +18,10 @@ QuestionPtr questionsGetById(Questions questions, int questionId, int* resultInd
 
 void questionsRemove(Questions questions, int index);
 
-Questions readQuestionsFromFile(char* filePath);
+Questions questionsReadFromFile(char* filePath);
 
-bool readQuestionsToStorage(char* filePath);
+bool questionsReadToStorage(char* filePath);
 
-bool writeQuestionsToFile(char* filePath, Questions questions);
+bool questionsWriteToFile(char* filePath, Questions questions);
 
 #endif //EXAMTASKSBUILDER_QUESTIONS_H
