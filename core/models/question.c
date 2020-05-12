@@ -76,9 +76,9 @@ void destroyQuestion(QuestionPtr question)
     free(question);
 }
 
-bool writeQuestionToFile(FILE *fp, QuestionPtr question)
+bool questionWriteToFile(FILE *fp, QuestionPtr question)
 {
-    int res = fprintf(fp,"%llu\n%d;%s;%d\n",
+    int res = fprintf(fp,"%llu;%d;%s;%d;",
                       strlen(question->text),
                       question->id,
                       question->text,
@@ -90,18 +90,21 @@ bool writeQuestionToFile(FILE *fp, QuestionPtr question)
         return false;
 }
 
-QuestionPtr readQuestionFromFile(FILE *fp)
+QuestionPtr questionReadFromFile(FILE *fp)
 {
     QuestionPtr question = calloc(1, sizeof(QuestionPtr));
 
     unsigned long long strLen;
-    fscanf(fp, "%llu\n", &strLen);
-    question->text = calloc(strLen, sizeof(char));
+    fscanf(fp, "%llu;", &strLen);
+    question->text = calloc(strLen + 1, sizeof(char));
+    printf("str len: %llu\n", strLen);
 
-    fscanf(fp, "%d;%[^;]%*c%d\n",
+    fscanf(fp, "%d;%[^;]%*c%d;",
            &question->id,
            question->text,
            &question->levelOfDifficulty);
+
+    printf("id: %d question: %s level: %d\n", question->id, question->text, question->levelOfDifficulty);
 
     return question;
 }

@@ -25,8 +25,8 @@ bool questionSetLevelOfDifficult(QuestionPtr question, int levelOfDifficulty);
 
 void destroyQuestion(QuestionPtr question);
 
-bool writeQuestionToFile(FILE *fp, QuestionPtr question);
+bool questionWriteToFile(FILE *fp, QuestionPtr question);
 
-QuestionPtr readQuestionFromFile(FILE *fp);
+QuestionPtr questionReadFromFile(FILE *fp);
 
 #endif //EXAMTASKSBUILDER_QUESTION_H
