@@ -20,8 +20,12 @@ void questionsRemove(Questions questions, int index);
 
 Questions questionsReadFromFile(char* filePath);
 
+Questions questionsReadFromFP(FILE* fp);
+
 bool questionsReadToStorage(char* filePath);
 
 bool questionsWriteToFile(char* filePath, Questions questions);
+
+bool questionsWriteToFP(FILE* fp, Questions questions);
 
 #endif //EXAMTASKSBUILDER_QUESTIONS_H

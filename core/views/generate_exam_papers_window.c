@@ -82,7 +82,7 @@ void onGenerate(GtkWidget *TopWindow, gpointer data)
         listAdd(payload, numberOfExamPapers);
         listAdd(payload, numberOfQuestionsEntry);
 
-        eventBusEmitEventWithParam(EVENT_MAIN_WINDOW_GENERATE_EXAM_PAPERS_RESULT, payload);
+        eventBusEmitEventWithParam(EVENT_GENERATE_EXAM_PAPERS_WINDOW_RESULT, payload);
         gtk_window_close(generateExamPapersWindow->window);
         free(generateExamPapersWindow);
     }

@@ -44,6 +44,21 @@ ExamPapers examPapersReadFromFile(char* filePath)
         return NULL;
 }
 
+ExamPapers examPapersReadFromFP(FILE* fp)
+{
+    int* n = calloc(1, sizeof(int));
+
+    fscanf(fp, "%d\n", n);
+    //printf("%d", *n);
+
+    ExamPapers examPapers = createExamPapers();
+    for (int i=0; i < *n; i++)
+        listAdd(examPapers, examPaperReadFromFile(fp));
+
+    free(n);
+    return examPapers;
+}
+
 bool examPapersReadToStorage(char* filePath)
 {
     ExamPapers examPapers = examPapersReadFromFile(filePath);
@@ -72,22 +87,27 @@ bool examPapersWriteToFile(char* filePath, ExamPapers examPapers)
     FILE *fp = fopen(filePath, "w");
     if (fp != NULL)
     {
-        fprintf(fp,"%d\n", examPapers->size);
-
-        bool t;
-        for(int i=0;i < examPapers->size; i++)
-        {
-            t = examPaperWriteToFile(fp, (ExamPaperPtr) listGet(examPapers, i));
-            if (t == false)
-            {
-                fclose(fp);
-                return false;
-            }
-        }
-
+        bool res = examPapersWriteToFP(fp, examPapers);
         fclose(fp);
-        return true;
+        return res;
     }
     else
         return false;
+}
+
+bool examPapersWriteToFP(FILE* fp, ExamPapers examPapers)
+{
+    fprintf(fp,"%d\n", examPapers->size);
+
+    bool t;
+    for(int i=0;i < examPapers->size; i++)
+    {
+        t = examPaperWriteToFile(fp, (ExamPaperPtr) listGet(examPapers, i));
+        if (t == false)
+        {
+            return false;
+        }
+    }
+
+    return true;
 }

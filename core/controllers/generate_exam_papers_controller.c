@@ -17,8 +17,8 @@ void onGenerateExamPapersResult(void* rawVal);
 
 int showGenerateExamPapersDialog()
 {
-    generateExamPapersListenerId = eventBusRegisterListener(EVENT_MAIN_WINDOW_GENERATE_EXAM_PAPERS_RESULT,
-            onGenerateExamPapersResult);
+    generateExamPapersListenerId = eventBusRegisterListener(EVENT_GENERATE_EXAM_PAPERS_WINDOW_RESULT,
+                                                            onGenerateExamPapersResult);
 
     GtkWidget* window = getGenerateExamPapersDialog();
     gtk_widget_show(window);

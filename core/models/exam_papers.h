@@ -16,8 +16,12 @@ void destroyExamPapers(ExamPapers examPapers);
 
 ExamPapers examPapersReadFromFile(char* filePath);
 
+ExamPapers examPapersReadFromFP(FILE* fp);
+
 bool examPapersReadToStorage(char* filePath);
 
 bool examPapersWriteToFile(char* filePath, ExamPapers examPapers);
+
+bool examPapersWriteToFP(FILE* fp, ExamPapers examPapers);
 
 #endif //EXAMTASKSBUILDER_EXAM_PAPERS_H

@@ -39,7 +39,8 @@ ADD_EXECUTABLE(ExamTasksBuilder main.c
 
         utils/linked_list.h utils/linked_list.c
         utils/questions_compiler.c utils/questions_compiler.h
-        utils/helpers.c utils/helpers.h)
+        utils/helpers.c utils/helpers.h
+        utils/file_system.c utils/file_system.h)
 
 # Link the target to the GTK+ libraries
 TARGET_LINK_LIBRARIES(ExamTasksBuilder ${GTK3_LIBRARIES})

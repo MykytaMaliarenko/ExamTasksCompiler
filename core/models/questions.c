@@ -67,7 +67,7 @@ Questions questionsReadFromFile(char* filePath)
         FILE *fp = fopen(filePath, "r");
         if (fp != NULL)
         {
-            fscanf(fp, "%d\n", n);
+            fscanf(fp, "\n%d\n", n);
             //printf("%d", *n);
 
             Questions questions = createQuestions();
@@ -83,6 +83,20 @@ Questions questionsReadFromFile(char* filePath)
     }
     else
         return NULL;
+}
+
+Questions questionsReadFromFP(FILE* fp)
+{
+    int* n = calloc(1, sizeof(int));
+    fscanf(fp, "\n%d\n", n);
+    //printf("%d", *n);
+
+    Questions questions = createQuestions();
+    for (int i=0; i < *n; i++)
+        listAdd(questions, questionReadFromFile(fp));
+
+    free(n);
+    return questions;
 }
 
 bool questionsReadToStorage(char* filePath)
@@ -114,7 +128,7 @@ bool questionsWriteToFile(char* filePath, Questions questions)
     FILE *fp = fopen(filePath, "w");
     if (fp != NULL)
     {
-        fprintf(fp,"%d\n", questions->size);
+        fprintf(fp,"\n%d\n", questions->size);
 
         bool t;
         for(int i=0;i < questions->size; i++)
@@ -132,4 +146,21 @@ bool questionsWriteToFile(char* filePath, Questions questions)
     }
     else
         return false;
+}
+
+bool questionsWriteToFP(FILE* fp, Questions questions)
+{
+    fprintf(fp,"\n%d\n", questions->size);
+
+    bool t;
+    for(int i=0;i < questions->size; i++)
+    {
+        t = questionWriteToFile(fp, (QuestionPtr) listGet(questions, i));
+        if (t == false)
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
