@@ -6,7 +6,7 @@
 #define EXAMTASKSBUILDER_QUESTIONS_H
 
 #include "./question.h"
-#include "../../utils/linked_list/linked_list.h"
+#include "../../utils/linked_list.h"
 
 typedef LinkedList* Questions;
 

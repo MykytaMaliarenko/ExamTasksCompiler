@@ -15,6 +15,15 @@ LinkedList* createList()
     return list;
 }
 
+LinkedList* listCopy(LinkedList* list)
+{
+    LinkedList* res = createList();
+    for (int i = 0; i < list->size; i++)
+        listAdd(res, listGet(list, i));
+
+    return res;
+}
+
 void destroyList(LinkedList* self,  void (*destroyVal)(void*))
 {
     LinkedListNode* currentNode = self->firstNode;
@@ -27,6 +36,11 @@ void destroyList(LinkedList* self,  void (*destroyVal)(void*))
     }
 
     free(self);
+}
+
+void listDefaultDestroyer(void* val)
+{
+    free(val);
 }
 
 LinkedListNode* listGetNode(LinkedList* self, int index)

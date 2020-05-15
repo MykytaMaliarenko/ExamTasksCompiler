@@ -7,6 +7,6 @@
 
 #include <gtk/gtk.h>
 
-GtkWidget* geAddQuestionDialog();
+GtkWidget* getAddQuestionDialog();
 
 #endif //EXAMTASKSBUILDER_ADD_QUESTION_WINDOW_H

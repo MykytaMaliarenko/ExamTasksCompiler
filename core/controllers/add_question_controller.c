@@ -21,7 +21,7 @@ int showAddQuestionDialog()
 {
     listenerId = eventBusRegisterListener(EVENT_ADD_QUESTION_WINDOW_RESULT, onResult);
 
-    GtkWidget* window = geAddQuestionDialog();
+    GtkWidget* window = getAddQuestionDialog();
     gtk_widget_show(window);
 
     return 0;

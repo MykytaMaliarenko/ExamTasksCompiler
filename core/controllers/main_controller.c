@@ -3,39 +3,45 @@
 //
 
 #include "main_controller.h"
-#include <stdlib.h>
-#include "../views/main_window.h"
-#include "../../utils/linked_list/linked_list.h"
+#include "../views/main_window/main_window.h"
+#include "../../utils/linked_list.h"
 #include "../models/questions.h"
+#include "../models/exam_paper.h"
+#include "../models/exam_papers.h"
 #include "../../event_bus/event_bus.h"
 #include "../../storage/storage.h"
 #include "../../storage/storage_fields.h"
 #include "../../event_bus/events.h"
 #include "add_question_controller.h"
-
-void initEventsListeners();
+#include "generate_exam_papers_controller.h"
 
 void addQuestion();
+
+void generateExamPapers();
 
 void exportQuestionsToPDF();
 
 
 int startMainWindow()
 {
-    //the only way you should create garbage-question for tests
-    char* t1 = calloc(20, sizeof(char));
-    memcpy(t1, "test 1", 6);
+    questionsReadToStorage("D:\\Projects\\C\\ExamTasksCompiler\\questions.txt");
 
-    char* t2 = calloc(20, sizeof(char));
-    memcpy(t2, "test 2", 6);
+    ExamPaperPtr ptr1 = createExamPaper();
+    examPaperAddQuestionId(ptr1, 0);
+    examPaperAddQuestionId(ptr1, 1);
 
-    Questions questions = createQuestions();
-    listAdd(questions,createQuestion(t1, 50));
-    listAdd(questions,createQuestion(t2, 100));
+    ExamPaperPtr ptr2 = createExamPaper();
+    examPaperAddQuestionId(ptr2, 1);
+    examPaperAddQuestionId(ptr2, 5);
 
-    storageAdd(STORAGE_QUESTIONS, questions);
+    ExamPapers examPapers = createExamPapers();
+    listAdd(examPapers, ptr1);
+    listAdd(examPapers, ptr2);
 
-    initEventsListeners();
+    storageAdd(STORAGE_EXAM_PAPERS, examPapers);
+
+    eventBusRegisterListener(EVENT_MAIN_WINDOW_ADD_QUESTION, addQuestion);
+    eventBusRegisterListener(EVENT_MAIN_WINDOW_GENERATE_EXAM_PAPERS, generateExamPapers);
 
     GtkWidget* window = getMainWindow();
     gtk_widget_show(window);
@@ -44,14 +50,12 @@ int startMainWindow()
     return 0;
 }
 
-void initEventsListeners()
-{
-    eventBusRegisterListener(EVENT_MAIN_WINDOW_ADD_QUESTION, addQuestion);
-
-    //registerListener(EVENT_MAIN_WINDOW_EXPORT_QUESTIONS_TO_PDF, exportQuestionsToPDF);
-}
-
 void addQuestion()
 {
     showAddQuestionDialog();
+}
+
+void generateExamPapers()
+{
+    showGenerateExamPapersDialog();
 }

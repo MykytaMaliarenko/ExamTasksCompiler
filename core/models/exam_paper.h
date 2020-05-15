@@ -6,17 +6,30 @@
 #define EXAMTASKSBUILDER_EXAM_PAPER_H
 
 #include "question.h"
+#include "questions.h"
 
 typedef struct ExamPaper* ExamPaperPtr;
 
-ExamPaperPtr createExamPaper(QuestionPtr* questions);
+ExamPaperPtr createExamPaper();
 
-QuestionPtr examPaperGetQuestions(ExamPaperPtr examPaper);
+void examPaperSetIdCounter(int val);
+
+LinkedList* examPaperGetQuestionsIds(ExamPaperPtr self);
+
+char* examPaperGetQuestionsIdsAsString(ExamPaperPtr self);
+
+void examPaperAddQuestionId(ExamPaperPtr self, int questionId);
+
+void examPaperRemoveQuestionId(ExamPaperPtr self, int questionId);
+
+bool examPaperHasQuestionId(ExamPaperPtr self, int questionId);
+
+int examPaperGetId(ExamPaperPtr self);
 
 void destroyExamPaper(ExamPaperPtr examPaper);
 
-ExamPaperPtr* readExamPapersFromFile(char* filePath, QuestionPtr* allQuestions);
+bool examPaperWriteToFile(FILE *fp, ExamPaperPtr examPaper);
 
-int saveExamPapersToFile(char* filePath, ExamPaperPtr examPaper);
+ExamPaperPtr examPaperReadFromFile(FILE *fp);
 
 #endif //EXAMTASKSBUILDER_EXAM_PAPER_H

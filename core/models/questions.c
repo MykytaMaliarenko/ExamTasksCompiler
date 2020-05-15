@@ -5,7 +5,7 @@
 #include "questions.h"
 #include <stdlib.h>
 #include "unistd.h"
-#include "../../utils/linked_list/linked_list.h"
+#include "../../utils/linked_list.h"
 #include "../../storage/storage.h"
 #include "../../storage/storage_fields.h"
 

@@ -14,14 +14,14 @@ struct AddQuestionWindow
     GtkWindow* window;
     GtkEntry* questionEntry;
     GtkEntry* levelOfDifficultyEntry;
-} static *addQuestionWindow;
+} *addQuestionWindow;
 
 void onAdd(GtkWidget *TopWindow, gpointer data);
 
 void onCancel(GtkWidget *TopWindow, gpointer data);
 
 
-GtkWidget* geAddQuestionDialog()
+GtkWidget* getAddQuestionDialog()
 {
     addQuestionWindow = calloc(1, sizeof(struct AddQuestionWindow));
 

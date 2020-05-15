@@ -4,6 +4,4 @@
 
 const int STORAGE_QUESTIONS = 0;
 
-const int STORAGE_QUESTIONS_LENGTH = 1;
-
-const int STORAGE_EXAM_PAPERS = 2;
+const int STORAGE_EXAM_PAPERS = 1;

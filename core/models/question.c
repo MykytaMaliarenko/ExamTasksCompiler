@@ -15,7 +15,7 @@ struct Question {
     int levelOfDifficulty;
 };
 
-static int idCounter = 0;
+static int idCounter = 1;
 
 
 QuestionPtr createQuestion(char* text, int levelOfDifficulty)
@@ -92,19 +92,16 @@ bool questionWriteToFile(FILE *fp, QuestionPtr question)
 
 QuestionPtr questionReadFromFile(FILE *fp)
 {
-    QuestionPtr question = calloc(1, sizeof(QuestionPtr));
+    QuestionPtr question = calloc(1, sizeof(struct Question));
 
     unsigned long long strLen;
     fscanf(fp, "%llu;", &strLen);
     question->text = calloc(strLen + 1, sizeof(char));
-    printf("str len: %llu\n", strLen);
 
     fscanf(fp, "%d;%[^;]%*c%d;",
            &question->id,
            question->text,
            &question->levelOfDifficulty);
-
-    printf("id: %d question: %s level: %d\n", question->id, question->text, question->levelOfDifficulty);
 
     return question;
 }
