@@ -1,21 +1,15 @@
+#include "core/controllers/main_controller.h"
+#include "utils/questions_compiler.h"
+#include "storage/storage.h"
 #include <gtk/gtk.h>
 
-int main(int argc, char **argv) {
-    GtkBuilder      *builder;
-    GtkWidget       *window;
+int main(int argc, char **argv)
+{
+    storageAdd(STORAGE_QUESTIONS, createQuestions());
+    storageAdd(STORAGE_EXAM_PAPERS, createExamPapers());
 
-    gtk_init(&argc, &argv);
-
-    builder = gtk_builder_new();
-    gtk_builder_add_from_file(builder, "D:\\Projects\\C\\ExamTasksCompiler\\gui\\test.glade", NULL);
-
-    window = GTK_WIDGET(gtk_builder_get_object(builder, "window_main"));
-    gtk_builder_connect_signals(builder, NULL);
-
-    g_object_unref(builder);
-
-    gtk_widget_show(window);
-    gtk_main();
+    gtk_init (&argc, &argv);
+    startMainWindow();
 
     return 0;
 }

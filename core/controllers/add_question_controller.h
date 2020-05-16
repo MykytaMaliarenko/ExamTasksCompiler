@@ -1,0 +1,10 @@
+//
+// Created by Mykyta Maliarenko on 31.03.2020.
+//
+
+#ifndef EXAMTASKSBUILDER_ADD_QUESTION_CONTROLLER_H
+#define EXAMTASKSBUILDER_ADD_QUESTION_CONTROLLER_H
+
+int showAddQuestionDialog();
+
+#endif //EXAMTASKSBUILDER_ADD_QUESTION_CONTROLLER_H
