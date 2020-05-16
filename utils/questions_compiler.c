@@ -4,6 +4,23 @@
 
 #include "questions_compiler.h"
 #include "linked_list.h"
+#include <math.h>
+
+int averageRawExamPaperDifficulty = 0;
+
+
+int calculateDifficultyOfRawExamPaper(LinkedList* questions)
+{
+    int res = 0;
+    for (int i = 0; i< questions->size; i++)
+    {
+        res += questionGetLevelOfDifficulty((QuestionPtr) listGet(questions, i));
+    }
+    res /= questions->size;
+
+    return res;
+}
+
 
 long long int factorial(int n)
 {
@@ -46,6 +63,8 @@ ExamPapers compileQuestions(Questions questions, int numberOfExamPapers, int num
 {
     LinkedList* rawRes = createList();
     combinationUtil(rawRes, NULL, questions, 0, numberOfQuestionsInExamPaper);
+
+    averageRawExamPaperDifficulty = 0;
     removeRedundantCombinations(rawRes, numberOfExamPapers);
 
     ExamPapers examPapers = createExamPapers();
@@ -107,8 +126,18 @@ void combinationUtil(LinkedList* res, LinkedList* currentCombination,
  */
 void removeRedundantCombinations(LinkedList* allCombinations, int numberOfRequiredCombinations)
 {
-    if (allCombinations->size == numberOfRequiredCombinations)
+    if (allCombinations->size == numberOfRequiredCombinations || allCombinations->size == 0)
         return;
+
+    for (int i = 0;i < allCombinations->size; i++)
+    {
+        LinkedList* current = listGet(allCombinations, i);
+        averageRawExamPaperDifficulty += calculateDifficultyOfRawExamPaper(current);
+    }
+
+    averageRawExamPaperDifficulty /= allCombinations->size;
+
+
 
     listSort(allCombinations, sortByTotalLevelOfDifficulty);
     while (allCombinations->size != numberOfRequiredCombinations)
@@ -118,17 +147,12 @@ void removeRedundantCombinations(LinkedList* allCombinations, int numberOfRequir
 
 int sortByTotalLevelOfDifficulty(LinkedListNode* a, LinkedListNode* b)
 {
-    LinkedList* aList = a->value;
-    LinkedList* bList = b->value;
-
-    int aTotalLevelOfDifficulty = 0;
-    for (int i = 0;i < aList->size; i++)
-        aTotalLevelOfDifficulty += questionGetLevelOfDifficulty((QuestionPtr)listGet(aList, i));
+    int aTotalLevelOfDifficultyDif = (int)
+            fabs(averageRawExamPaperDifficulty - calculateDifficultyOfRawExamPaper(a->value));
 
 
-    int bTotalLevelOfDifficulty = 0;
-    for (int i = 0;i < bList->size; i++)
-        bTotalLevelOfDifficulty += questionGetLevelOfDifficulty((QuestionPtr)listGet(bList, i));
+    int bTotalLevelOfDifficultyDif = (int)
+            fabs(averageRawExamPaperDifficulty - calculateDifficultyOfRawExamPaper(b->value));
 
-    return bTotalLevelOfDifficulty - aTotalLevelOfDifficulty;
+    return bTotalLevelOfDifficultyDif - aTotalLevelOfDifficultyDif;
 }

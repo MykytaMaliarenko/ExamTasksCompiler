@@ -125,6 +125,7 @@ void onUpdateQuestion(GtkWidget *TopWindow, gpointer data)
         questionSetText(question,  (char*) gtk_entry_get_text(questionsTab->entryQuestionText));
         questionSetLevelOfDifficult(question, atoi((char*) gtk_entry_get_text(questionsTab->entryLevelOfDifficulty)));
         storageNotifyAboutMutation(STORAGE_QUESTIONS);
+        storageNotifyAboutMutation(STORAGE_EXAM_PAPERS);
     }
 }
 

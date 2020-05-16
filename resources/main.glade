@@ -7,13 +7,9 @@
       <column type="gint"/>
       <!-- column-name questions_ids -->
       <column type="gchararray"/>
+      <!-- column-name level_of_difficulty -->
+      <column type="gint"/>
     </columns>
-    <data>
-      <row>
-        <col id="0">0</col>
-        <col id="1" translatable="yes">1, 2, 3, 4</col>
-      </row>
-    </data>
   </object>
   <object class="GtkListStore" id="questions_list_store">
     <columns>
@@ -107,19 +103,6 @@
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkButton" id="button3">
-                        <property name="label" translatable="yes">Експортувати питання у PDF</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
                       </packing>
                     </child>
                   </object>
@@ -359,19 +342,6 @@
                     <property name="spacing">3</property>
                     <property name="layout_style">start</property>
                     <child>
-                      <object class="GtkButton" id="button2">
-                        <property name="label" translatable="yes">Експортувти білети у PDF</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
                       <object class="GtkButton" id="button_generate_exam_papers">
                         <property name="label" translatable="yes">Генерація білетів</property>
                         <property name="visible">True</property>
@@ -431,6 +401,17 @@
                             </child>
                           </object>
                         </child>
+                        <child>
+                          <object class="GtkTreeViewColumn" id=" levelOfDifficulty">
+                            <property name="title" translatable="yes">Складність білетів</property>
+                            <child>
+                              <object class="GtkCellRendererProgress" id="cellrendererprogress2"/>
+                              <attributes>
+                                <attribute name="value">2</attribute>
+                              </attributes>
+                            </child>
+                          </object>
+                        </child>
                       </object>
                     </child>
                   </object>
@@ -448,19 +429,6 @@
                     <property name="margin_bottom">5</property>
                     <property name="spacing">3</property>
                     <property name="layout_style">start</property>
-                    <child>
-                      <object class="GtkButton" id="button_edit_exam_paper">
-                        <property name="label" translatable="yes">Редагувати білет</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
                     <child>
                       <object class="GtkButton" id="button_remove_exam_paper">
                         <property name="label" translatable="yes">Видалити білет</property>

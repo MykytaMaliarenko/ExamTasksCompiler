@@ -42,6 +42,13 @@ bool fileSystemReadFromFileToStorage(char* filePath)
             Questions oldQuestions = storageGet(STORAGE_QUESTIONS);
             destroyQuestions(oldQuestions);
             storageMutate(STORAGE_QUESTIONS, questions);
+
+            if (storageHas(STORAGE_EXAM_PAPERS))
+            {
+                ExamPapers oldExamPapers = storageGet(STORAGE_EXAM_PAPERS);
+                destroyExamPapers(oldExamPapers);
+                storageMutate(STORAGE_EXAM_PAPERS, createExamPapers());
+            }
         }
         else
         {

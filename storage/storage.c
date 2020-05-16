@@ -77,7 +77,7 @@ bool storageAdd(int fieldId, void* value)
 
 /**
  * @brief Reassign value by given key and run all listeners.
- * @return returns false if there is value by that key or no room in storage.
+ * @return returns false if there is no value by that key.
  */
 bool storageMutate(int fieldId, void* value)
 {

@@ -26,6 +26,8 @@ bool examPaperHasQuestionId(ExamPaperPtr self, int questionId);
 
 int examPaperGetId(ExamPaperPtr self);
 
+int examPaperGetLevelOfDifficulty(ExamPaperPtr self);
+
 void destroyExamPaper(ExamPaperPtr examPaper);
 
 bool examPaperWriteToFile(FILE *fp, ExamPaperPtr examPaper);

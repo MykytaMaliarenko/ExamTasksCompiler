@@ -4,6 +4,7 @@
 
 #include "exam_paper.h"
 #include <string.h>
+#include "../../storage/storage.h"
 
 struct ExamPaper {
     int id;
@@ -83,6 +84,32 @@ bool examPaperHasQuestionId(ExamPaperPtr self, int questionId)
 int examPaperGetId(ExamPaperPtr self)
 {
     return self->id;
+}
+
+int examPaperGetLevelOfDifficulty(ExamPaperPtr self)
+{
+    if (self->questionsIds->size == 0)
+        return 0;
+
+    Questions questions = storageGet(STORAGE_QUESTIONS);
+    int res = 0;
+    for (int i = 0; i < self->questionsIds->size; i++)
+    {
+        int* currentId = listGet(self->questionsIds, i);
+
+        for (int j = 0; j < questions->size; j++)
+        {
+            QuestionPtr current = listGet(questions, j);
+            if (questionGetId(current) == *currentId)
+            {
+                res += questionGetLevelOfDifficulty(current);
+                break;
+            }
+        }
+    }
+    res /= self->questionsIds->size;
+
+    return res;
 }
 
 void destroyExamPaper(ExamPaperPtr examPaper)
