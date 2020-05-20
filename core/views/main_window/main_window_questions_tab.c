@@ -31,6 +31,8 @@ struct QuestionsTab
 } *questionsTab;
 
 
+void onExportQuestions(GtkWidget *TopWindow, gpointer data);
+
 void onAddQuestion(GtkWidget *TopWindow, gpointer data);
 
 void onRemoveQuestion(GtkWidget *TopWindow, gpointer data);
@@ -46,6 +48,10 @@ bool mainWindowInitQuestionsTab(GtkBuilder* builder)
 {
     questionsTab = calloc(1, sizeof(struct QuestionsTab));
     questionsTab->chosenQuestionId = -1;
+
+    GtkButton* exportQuestionsButton = GTK_BUTTON(gtk_builder_get_object(builder, "button_export_questions"));
+    g_signal_connect(exportQuestionsButton, "clicked",
+                     G_CALLBACK(onExportQuestions), NULL);
 
     GtkButton* addQuestionButton = GTK_BUTTON(gtk_builder_get_object(builder, "button_add_question"));
     g_signal_connect(addQuestionButton, "clicked",
@@ -92,6 +98,11 @@ void renderQuestions()
     }
 
     //g_object_unref(list_store);
+}
+
+void onExportQuestions(GtkWidget *TopWindow, gpointer data)
+{
+    eventBusEmitEvent(EVENT_MAIN_WINDOW_EXPORT_QUESTIONS);
 }
 
 void onAddQuestion(GtkWidget *TopWindow, gpointer data)

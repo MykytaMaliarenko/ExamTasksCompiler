@@ -19,6 +19,8 @@
 GtkWidget* mainWindow;
 
 
+char* saveFileGetPath();
+
 void addQuestion();
 
 void generateExamPapers();
@@ -27,6 +29,10 @@ void fileSystemSave();
 
 void fileSystemLoad();
 
+void exportQuestions();
+
+void exportExamPapers();
+
 
 int startMainWindow()
 {
@@ -34,6 +40,8 @@ int startMainWindow()
     eventBusRegisterListener(EVENT_MAIN_WINDOW_GENERATE_EXAM_PAPERS, generateExamPapers);
     eventBusRegisterListener(EVENT_MAIN_WINDOW_FILE_SYSTEM_SAVE, fileSystemSave);
     eventBusRegisterListener(EVENT_MAIN_WINDOW_FILE_SYSTEM_LOAD, fileSystemLoad);
+    eventBusRegisterListener(EVENT_MAIN_WINDOW_EXPORT_QUESTIONS, exportQuestions);
+    eventBusRegisterListener(EVENT_MAIN_WINDOW_EXPORT_EXAM_PAPERS, exportExamPapers);
 
     mainWindow = getMainWindow();
     gtk_widget_show(mainWindow);
@@ -42,17 +50,7 @@ int startMainWindow()
     return 0;
 }
 
-void addQuestion()
-{
-    showAddQuestionDialog();
-}
-
-void generateExamPapers()
-{
-    showGenerateExamPapersDialog();
-}
-
-void fileSystemSave()
+char* saveFileGetPath()
 {
     GtkWidget *dialog;
     GtkFileChooser *chooser;
@@ -67,20 +65,37 @@ void fileSystemSave()
 
     gtk_file_chooser_set_do_overwrite_confirmation(chooser, TRUE);
     res = gtk_dialog_run (GTK_DIALOG (dialog));
-    if (res == GTK_RESPONSE_ACCEPT)
-    {
-        char *filename;
-        filename = gtk_file_chooser_get_filename(chooser);
-        g_print("%s", filename);
 
+    char* filename = NULL;
+    if (res == GTK_RESPONSE_ACCEPT)
+        filename = gtk_file_chooser_get_filename(chooser);
+
+    gtk_widget_destroy(dialog);
+
+    return filename;
+}
+
+void addQuestion()
+{
+    showAddQuestionDialog();
+}
+
+void generateExamPapers()
+{
+    showGenerateExamPapersDialog();
+}
+
+void fileSystemSave()
+{
+    char* filename = saveFileGetPath();
+    if (filename != NULL)
+    {
         Questions questions = storageGet(STORAGE_QUESTIONS);
         ExamPapers examPapers = storageGet(STORAGE_EXAM_PAPERS);
 
         fileSystemSaveToFile(filename, examPapers, questions);
         g_free(filename);
     }
-
-    gtk_widget_destroy (dialog);
 }
 
 void fileSystemLoad()
@@ -105,4 +120,27 @@ void fileSystemLoad()
     }
 
     gtk_widget_destroy (dialog);
+}
+
+void exportQuestions()
+{
+    char* filename = saveFileGetPath();
+    if (filename != NULL)
+    {
+        Questions questions = storageGet(STORAGE_QUESTIONS);
+        fileSystemExportQuestionsToFile(filename, questions);
+        g_free(filename);
+    }
+}
+
+void exportExamPapers()
+{
+    char* filename = saveFileGetPath();
+    if (filename != NULL)
+    {
+        ExamPapers examPapers = storageGet(STORAGE_EXAM_PAPERS);
+        Questions questions = storageGet(STORAGE_QUESTIONS);
+        fileSystemExportExamPapersToFile(filename, examPapers, questions);
+        g_free(filename);
+    }
 }

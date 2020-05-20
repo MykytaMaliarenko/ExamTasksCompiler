@@ -38,6 +38,8 @@ void onGenerateExamPapers();
 
 void onRemoveExamPapers(GtkWidget *TopWindow, gpointer data);
 
+void onExportExamPapers();
+
 void onExamPapersListStoreRowClick(GtkTreeView *treeView, GtkTreePath *path,
                                    GtkTreeViewColumn *column, gpointer userData);
 
@@ -46,6 +48,10 @@ bool mainWindowInitExamPapersTab(GtkBuilder* builder)
 {
     examPapersTab = calloc(1, sizeof(struct ExamPapersTab));
     examPapersTab->chosenExamPaperId = -1;
+
+    GtkButton* exportExamPapersButton = GTK_BUTTON(gtk_builder_get_object(builder, "button_export_exam_papers"));
+    g_signal_connect(exportExamPapersButton, "clicked",
+                     G_CALLBACK(onExportExamPapers), NULL);
 
     examPapersTab->examPapersListStore = GTK_LIST_STORE(gtk_builder_get_object(builder, "exam_papers_list_store"));
     examPapersTab->examPapersTreeView = GTK_TREE_VIEW(gtk_builder_get_object(builder, "exam_papers_tree_view"));
@@ -91,6 +97,11 @@ void renderExamPapers()
                            LIST_STORE_LEVEL_OF_DIFFICULTY, examPaperGetLevelOfDifficulty(examPaper),
                            -1);
     }
+}
+
+void onExportExamPapers()
+{
+    eventBusEmitEvent(EVENT_MAIN_WINDOW_EXPORT_EXAM_PAPERS);
 }
 
 void onGenerateExamPapers()

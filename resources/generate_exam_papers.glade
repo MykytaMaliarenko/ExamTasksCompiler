@@ -30,7 +30,7 @@
             </child>
             <child>
               <object class="GtkButton" id="button_generate">
-                <property name="label" translatable="yes">Сгенерувати</property>
+                <property name="label" translatable="yes">Згенерувати</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>

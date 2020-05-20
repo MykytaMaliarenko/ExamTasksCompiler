@@ -12,4 +12,8 @@ bool fileSystemSaveToFile(char* filePath, ExamPapers examPapers, Questions quest
 
 bool fileSystemReadFromFileToStorage(char* filePath);
 
+bool fileSystemExportQuestionsToFile(char* filePath, Questions questions);
+
+bool fileSystemExportExamPapersToFile(char* filePath, ExamPapers examPapers, Questions questions);
+
 #endif //EXAMTASKSBUILDER_FILE_SYSTEM_H

@@ -72,3 +72,43 @@ bool fileSystemReadFromFileToStorage(char* filePath)
 
     return true;
 }
+
+bool fileSystemExportQuestionsToFile(char* filePath, Questions questions)
+{
+    FILE* fp = fopen(filePath, "w");
+
+    for (int i = 0; i < questions->size; i++)
+    {
+        QuestionPtr currentQuestion = listGet(questions, i);
+        if (i == questions->size - 1)
+            fprintf(fp, "%d)%s", i + 1, questionGetText(currentQuestion));
+        else
+            fprintf(fp, "%d)%s\n", i + 1, questionGetText(currentQuestion));
+    }
+
+    fclose(fp);
+    return true;
+}
+
+bool fileSystemExportExamPapersToFile(char* filePath, ExamPapers examPapers, Questions questions)
+{
+    FILE* fp = fopen(filePath, "w");
+
+    for (int i = 0;i < examPapers->size; i++)
+    {
+        ExamPaperPtr examPaperPtr = listGet(examPapers, i);
+        fprintf(fp, "Білет №%d:\n", i + 1);
+
+        LinkedList* questionsIds = examPaperGetQuestionsIds(examPaperPtr);
+        for (int j = 0;j < questionsIds->size; j++)
+        {
+            QuestionPtr currentQuestion = questionsGetById(questions,*((int*) listGet(questionsIds, j)),NULL);
+            fprintf(fp, "\t%d) %s\n", j + 1, questionGetText(currentQuestion));
+        }
+
+        fprintf(fp, "\n");
+    }
+
+    fclose(fp);
+    return true;
+}
